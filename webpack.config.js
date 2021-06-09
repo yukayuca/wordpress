@@ -10,6 +10,31 @@
 
 const currentTask = process.env.npm_lifecycle_event
 const path = require("path")
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+ module.exports = {
+   mode: 'development',
+   entry: {
+     index: './src/index.js',
+     print: './src/print.js',
+   },
+   devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist',
+  },
+   plugins: [
+     new HtmlWebpackPlugin({
+       title: 'Development',
+     }),
+   ],
+   output: {
+     filename: '[name].bundle.js',
+     path: path.resolve(__dirname, 'dist'),
+     clean: true,
+   },
+ };
+
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const ManifestPlugin = require("webpack-manifest-plugin")
@@ -113,7 +138,7 @@ if (currentTask == "build" || currentTask == "buildWatch") {
   cssConfig.use.unshift(MiniCssExtractPlugin.loader)
   postCSSPlugins.push(require("cssnano"))
   config.output = {
-    publicPath: "/wp-content/themes/wp2_theme/bundled-assets/",
+    publicPath: "/wp-content/themes/fictional-university-theme/bundled-assets/",
     filename: "[name].[chunkhash].js",
     chunkFilename: "[name].[chunkhash].js",
     path: path.resolve(__dirname, "bundled-assets")
@@ -126,3 +151,5 @@ if (currentTask == "build" || currentTask == "buildWatch") {
 }
 
 module.exports = config
+
+
